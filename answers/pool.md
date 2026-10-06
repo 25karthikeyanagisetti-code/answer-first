@@ -23,5 +23,9 @@ Mostly mathematical/computational, because those answers can be verified in Pyth
 
 ## Generated
 
+- 1105 (smallest Carmichael number that is a sum of two squares; Gaussian twin of today's 1729 result)
+- 63973 = 7·13·19·37 (Carmichael number with λ = 36, the same as 1729's)
+- 5227631785 (apparently the largest number that is both centered-cube and 12-gonal; check whether the list is finite)
+
 ## Used
 

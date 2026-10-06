@@ -5,7 +5,8 @@ Add one per line. Optionally add a hint after `—` (domain, what you're curious
 
 ## Queue
 
-- 1729 — test case: find a question about 1729 that isn't the taxicab one
 
 ## Done
+
+- 2026-10-05 — 1729 — test case: find a question about 1729 that isn't the taxicab one → discoveries/2026-10-05_1729-non-taxicab/
 
