@@ -5,7 +5,6 @@ Mostly mathematical/computational, because those answers can be verified in Pyth
 
 ## Seeds
 
-- 137
 - 0.5772156649 (Euler–Mascheroni γ)
 - 1, 3, 7, 19, 51, 141
 - 4 °C (temperature of maximum water density)
@@ -27,7 +26,11 @@ Mostly mathematical/computational, because those answers can be verified in Pyth
 - 5227631785 (apparently the largest number that is both centered-cube and 12-gonal; check whether the list is finite)
 - 1013 (Eulerian ⟨10,1⟩ = 22²+23², a Sophie Germain prime; half of 2026)
 - 181 (Ramanujan–Nagell 2¹⁵−7 = 181²; scan the family 2ⁿ − an − b = x² for other sporadic large solutions like 2¹¹−23 = 45²)
+- 1597 (smallest PPT hypotenuse with 17# | area; that triangle (715,1428,1597) has area exactly 17# — also a Fibonacci prime)
+- 221 = 13·17 (hypotenuse of the PPT with area exactly 2310 = 11#; which primorials are PPT areas?)
+- 51781 = 53·977 (first composite term of the primorial-area hypotenuse sequence 5,13,29,137,569,1597,10957,51781)
 
 ## Used
 
 - 2026 — 2026-10-05 → discoveries/2026-10-05_2026-mersenne-square/
+- 137 — 2026-10-15 → discoveries/2026-10-15_137-primorial-triangle/

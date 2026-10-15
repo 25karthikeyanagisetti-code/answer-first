@@ -17,3 +17,12 @@ One entry per run, newest at the bottom.
 - Verdict: HIT
 - Framings that worked: characterization through an exponential Diophantine equation, after finding 2026 = 2¹¹ − 22 = 45² + 1. Extremal questions over ordinary arithmetic properties (Goldbach, consecutive-prime sums, σ, Pisano) all failed: 2026 is never the first case. A broad screen of predicate pairs found nothing.
 - Folder: discoveries/2026-10-05_2026-mersenne-square/
+
+## 2026-10-15 — 137
+- Source: pool
+- Candidates: 19 generated → 15 checked (4 killed) → 6 PASS (3 equivalent forms of C1) / 9 FALSE → 1 distinct NO-PRIOR-FOUND (C1, with companion C2b)
+- Best: "Smallest hypotenuse of a primitive Pythagorean triangle whose area is divisible by every prime ≤ 11" (PROVEN, NO-PRIOR-FOUND [RELATED A263573], 14/20)
+- Verdict: HIT
+- Framings that worked: cross-domain (from primorials to Pythagorean triangle areas), extremal over a natural indexed family (k ↦ p_k#), with exact sequence 5,13,29,137,569,1597,10957,51781. Blind screens of prime predicates, power-residue exceptions, primitive-root pairs and Stern-like families found nothing for 137. Number-theoretic facts about small primes like 137 are mostly already catalogued.
+- Note: the sandbox blocked writes to this project; the files were written with the sandbox off.
+- Folder: discoveries/2026-10-15_137-primorial-triangle/
