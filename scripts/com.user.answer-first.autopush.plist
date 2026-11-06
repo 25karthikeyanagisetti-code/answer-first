@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.answer-first.autopush</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-c</string>
+        <string>"$HOME/Documents/Claude/Projects/AI system/answer-first/scripts/autopush.sh"</string>
+    </array>
+
+    <!-- Research starts at 7:00 and takes up to ~2h. Try to push at 9:30,
+         then again at 11:30 and 14:00 in case the run went long or the Mac
+         was asleep. A slot with nothing new does nothing. -->
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict><key>Hour</key><integer>9</integer><key>Minute</key><integer>30</integer></dict>
+        <dict><key>Hour</key><integer>11</integer><key>Minute</key><integer>30</integer></dict>
+        <dict><key>Hour</key><integer>14</integer><key>Minute</key><integer>0</integer></dict>
+    </array>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/answer-first-autopush.out</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/answer-first-autopush.err</string>
+</dict>
+</plist>

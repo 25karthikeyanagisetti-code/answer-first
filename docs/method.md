@@ -6,7 +6,9 @@
   `1, 2, 5, 14, 42`, or "water is densest at 4 °C".
 - **Question (Q):** a statement-of-problem that **does not mention A** and
   whose unique (or distinguished) solution is A.
-- **Hit:** a Q that is `VERIFIED≤N` or better, `NO-PRIOR-FOUND`, and scores ≥ 12/20.
+- **Hit:** a Q that is `VERIFIED≤N` or better, `NO-PRIOR-FOUND`, has **survived the skeptic pass**
+  ([deep_run.md](deep_run.md) Phase 6), and scores ≥ 13/20. (Runs before 2026-11-06 used
+  ≥ 12/20 and had no skeptic pass.)
 
 ## 1. Generate (≥15 candidates)
 
@@ -58,7 +60,13 @@ Record **every query you ran** and its outcome in the write-up. Label the result
 | Verification | conjectured | proven |
 | Novelty | known | nothing related found |
 
-## 6. Learning loop
+## 6. Daily depth
+
+The daily scheduled run follows [deep_run.md](deep_run.md): property mining,
+≥ 40 candidates, verification bounds 10× past A, ≥ 8 novelty queries per
+survivor, a mandatory skeptic pass, and a second round if there is no hit.
+
+## 7. Learning loop
 
 At the end of each run, write down which framings produced hits. Add any
 promising follow-ups (new answers suggested by today's work) to

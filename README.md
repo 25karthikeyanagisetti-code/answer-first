@@ -33,6 +33,9 @@ answers/pool.md   ──┼─► pick ONE answer
 ```
 
 The full method and scoring rubric are in [docs/method.md](docs/method.md).
+The daily run follows the deeper protocol in [docs/deep_run.md](docs/deep_run.md)
+(property mining, ≥40 candidates, a skeptic pass, and a second round if there is no hit).
+Setup for the scheduler: [SCHEDULED_AUTOMATION.md](SCHEDULED_AUTOMATION.md).
 
 ## Honesty rules
 
@@ -65,6 +68,10 @@ daily run takes it before anything in the seed pool.
 | `answers/pool.md` | seed answers used when the inbox is empty |
 | `discoveries/` | one folder per daily run |
 | `docs/method.md` | the procedure + scoring rubric |
+| `docs/deep_run.md` | the daily deep-run protocol (what the scheduled task does) |
+| `docs/open_problems.md` | unfinished threads that each run pushes forward |
 | `docs/daily_log.md` | one entry per run |
 | `docs/leaderboard.md` | best `NO-PRIOR-FOUND` questions so far |
 | `src/oeis.py` | OEIS lookup helper for novelty checks |
+| `automation/cowork-task/SKILL.md` | instructions for the Cowork scheduled task |
+| `scripts/autopush.sh` | launchd job that pushes the day's commits |
