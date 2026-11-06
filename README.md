@@ -33,8 +33,9 @@ answers/pool.md   ──┼─► pick ONE answer
 ```
 
 The full method and scoring rubric are in [docs/method.md](docs/method.md).
-The daily run follows the deeper protocol in [docs/deep_run.md](docs/deep_run.md)
-(property mining, ≥40 candidates, a skeptic pass, and a second round if there is no hit).
+The daily run follows the deeper protocol in [docs/deep_run.md](docs/deep_run.md):
+140 minutes, 5 agents (miner, generator, verifier, prior-art-hunter, skeptic),
+and blind independent scoring with a consensus rule for hits.
 Setup for the scheduler: [SCHEDULED_AUTOMATION.md](SCHEDULED_AUTOMATION.md).
 
 ## Honesty rules
@@ -73,5 +74,6 @@ daily run takes it before anything in the seed pool.
 | `docs/daily_log.md` | one entry per run |
 | `docs/leaderboard.md` | best `NO-PRIOR-FOUND` questions so far |
 | `src/oeis.py` | OEIS lookup helper for novelty checks |
-| `automation/cowork-task/SKILL.md` | instructions for the Cowork scheduled task |
-| `scripts/autopush.sh` | launchd job that pushes the day's commits |
+| `.claude/agents/` | the 5 research agents |
+| `automation/cloud-task/PROMPT.md` | prompt for the cloud scheduled task |
+| `CLAUDE.md` | project rules any Claude Code session reads |

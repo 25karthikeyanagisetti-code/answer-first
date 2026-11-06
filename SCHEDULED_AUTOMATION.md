@@ -1,97 +1,94 @@
-# Daily deep research — install guide
+# Daily deep research — setup guide
 
-This replaces the Snap-Time Agent daily research.
-
-## Architecture
+This replaces the Snap-Time Agent daily research. It runs as a **Claude Code
+cloud scheduled task** on Anthropic's servers, so it keeps going when your
+laptop is closed, off, or with you on a hike. Each run clones this repo fresh
+and pushes its results straight to `main`.
 
 ```
-07:00        Cowork scheduled task "answer-first-daily-research" wakes up
-             → follows docs/deep_run.md (~90–120 min)
-             → property mining, ≥40 candidates, verification, deep novelty search,
-               skeptic pass, round 2 if no hit, open-problem push
-             → writes everything to discoveries/<date>_<slug>/ and docs/
-             → git commit (locally; the sandbox can't push)
-
-09:30 / 11:30 / 14:00   launchd runs scripts/autopush.sh
-             → waits if .run_in_progress exists (the run is still going)
-             → git push origin main
-             → log: ~/Library/Logs/answer-first-autopush.log
+07:07 daily (cloud)  → fresh clone of answer-first
+                     → orchestrator + 5 agents, ~140 min (docs/deep_run.md)
+                       miner → generator → verifier ∥ prior-art-hunter → skeptic
+                       → consensus (3 blind scores) → round 2 if no hit → open problem
+                     → commit + push to main
 ```
 
-The Mac has to be awake at 07:00 for the research to run. launchd catches up
-on missed push slots when the Mac wakes.
+Nothing runs on your Mac. No launchd, and no autopush.
 
 ---
 
 ## Step 1 — Turn off Snap-Time Agent
 
-1. Cowork sidebar → **Scheduled** → `snap-time-agent-daily-research` → toggle **off**
-   (or delete it).
+1. Cowork sidebar → **Scheduled** → `snap-time-agent-daily-research` → toggle **off** or delete it.
 2. Terminal:
    ```bash
    launchctl unload ~/Library/LaunchAgents/com.user.snap-time-agent.autopush.plist 2>/dev/null
    rm -f ~/Library/LaunchAgents/com.user.snap-time-agent.autopush.plist
-   launchctl list | grep snap-time-agent   # should print nothing
    ```
 
-## Step 2 — Put the repo where the task expects it
+## Step 2 — Get this commit onto GitHub
 
-The task and autopush expect: `~/Documents/Claude/Projects/AI system/answer-first`
-```bash
-ls ~/Documents/Claude/Projects/"AI system"/answer-first/docs/deep_run.md
-```
-If the repo is somewhere else, move it there, or change the path in
-`automation/cowork-task/SKILL.md`, in `scripts/autopush.sh` (`REPO=`), and in
-`scripts/com.user.answer-first.autopush.plist`.
+The cloud task works from GitHub, not from your laptop, so `.claude/agents/`
+and the docs have to be pushed.
 
-## Step 3 — Create the Cowork scheduled task
+## Step 3 — Create a cloud environment (network + setup)
 
-In Cowork, with the answer-first folder connected, ask Claude:
+The default environment only allows package registries, which would block
+OEIS, arXiv and MathOverflow. At claude.ai/code, create an environment named
+`answer-first-research`:
 
-> Create a scheduled task named `answer-first-daily-research` that runs daily at
-> 7:00 AM (`0 7 * * *`). Use the contents of `automation/cowork-task/SKILL.md`
-> in this repo as its instructions. Give it read/write access to the
-> answer-first folder.
+- **Network access → Custom**, keep "include default list" checked, and add:
+  ```
+  oeis.org
+  arxiv.org
+  export.arxiv.org
+  mathoverflow.net
+  math.stackexchange.com
+  api.stackexchange.com
+  mathworld.wolfram.com
+  en.wikipedia.org
+  t5k.org
+  www.numbersaplenty.com
+  api.semanticscholar.org
+  scholar.google.com
+  dlmf.nist.gov
+  ```
+  (Or choose **Full** if the agents keep running into blocked sites.)
+- **Setup script:**
+  ```bash
+  pip install sympy numpy
+  ```
 
-Then click **Run now** once to test it. Make sure it can write files; the
-Oct 15 run hit a sandbox write block.
+## Step 4 — Create the scheduled task
 
-## Step 4 — Install auto-push
+Go to **claude.ai/code/routines** → **New task** (or **New routine**):
 
-```bash
-R=~/Documents/Claude/Projects/"AI system"/answer-first
-chmod +x "$R/scripts/autopush.sh"
-git config --global credential.helper osxkeychain
-cp "$R/scripts/com.user.answer-first.autopush.plist" ~/Library/LaunchAgents/
-launchctl unload ~/Library/LaunchAgents/com.user.answer-first.autopush.plist 2>/dev/null
-launchctl load   ~/Library/LaunchAgents/com.user.answer-first.autopush.plist
-launchctl list | grep answer-first
-```
+- **Name:** `answer-first-daily-research`
+- **Prompt:** paste the contents of `automation/cloud-task/PROMPT.md`
+- **Trigger:** Schedule → Daily, **7:07 AM** (a few minutes past the hour starts on time)
+- **Repository:** `25karthikeyanagisetti-code/answer-first`
+- **Environment:** `answer-first-research`
+- **Model / effort:** your strongest model, at high effort
+- **Connectors:** remove all of them (Gmail and Calendar aren't needed)
 
-## Step 5 — Test the push once
-
-```bash
-"$R/scripts/autopush.sh"; echo "exit: $?"
-tail -20 ~/Library/Logs/answer-first-autopush.log
-```
-`OK: pushed` or `nothing new to push` means it works. `push failed` usually
-means an expired GitHub token: do one manual `git push` and enter your PAT.
-
----
+Click **Create**, then **Run now** once and watch the session to confirm that
+it launches the agents and pushes to main.
 
 ## Day to day
 
-- **Give it an answer:** add a line under `## Queue` in `answers/inbox.md`
-  (you can do this on GitHub; autopush rebases before it pushes).
-- **Change how deep it goes:** edit `docs/deep_run.md`.
-- **See results:** `docs/daily_log.md`, `docs/leaderboard.md`, and the newest folder in `discoveries/`.
-- **Pause:** Cowork → Scheduled → toggle off.
+- **Give it an answer:** add a line under `## Queue` in `answers/inbox.md` (editing on GitHub from your phone works).
+- **Results:** `docs/daily_log.md`, `docs/leaderboard.md`, and the newest `discoveries/` folder on GitHub.
+- **Pause:** claude.ai/code/routines → the task → toggle off.
+- **Tune depth or roles:** edit `docs/deep_run.md` or `.claude/agents/*.md`.
 
-## Troubleshooting
+## Things to know
 
-| Symptom | Check |
-|---|---|
-| No new folder today | Cowork → Scheduled → run history; was the Mac awake at 7:00? |
-| Committed but not on GitHub | `tail ~/Library/Logs/answer-first-autopush.log` |
-| Log says "research still running" all day | Remove the stale `.run_in_progress` (autopush does this by itself after 4 h) |
-| `PARTIAL` commits | Read that day's daily_log entry; it says what broke |
+- **Usage:** runs use your Claude subscription's usage, the same as interactive
+  sessions. 140 minutes with 5 agents every day is heavy and can hit limits,
+  especially on Pro. Check claude.ai/settings/usage after the first few runs.
+  If you hit limits, run every other day or trim round 2 in deep_run.md.
+- **GitHub connection:** if it expires, runs are skipped until you reconnect
+  (the task turns itself off after 72 hours).
+- **Run status:** "Succeeded" in History only means the session ended cleanly.
+  Read the daily log to see whether it actually found anything.
+- Scheduled tasks are a research preview, so details may change.

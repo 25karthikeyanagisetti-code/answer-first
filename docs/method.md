@@ -7,7 +7,8 @@
 - **Question (Q):** a statement-of-problem that **does not mention A** and
   whose unique (or distinguished) solution is A.
 - **Hit:** a Q that is `VERIFIED≤N` or better, `NO-PRIOR-FOUND`, has **survived the skeptic pass**
-  ([deep_run.md](deep_run.md) Phase 6), and scores ≥ 13/20. (Runs before 2026-11-06 used
+  ([deep_run.md](deep_run.md) Phase 6), and reaches **consensus** across three independent
+  agent scores (median ≥ 13/20, none below 10; deep_run.md Phase 7). (Runs before 2026-11-06 used
   ≥ 12/20 and had no skeptic pass.)
 
 ## 1. Generate (≥15 candidates)
@@ -62,9 +63,10 @@ Record **every query you ran** and its outcome in the write-up. Label the result
 
 ## 6. Daily depth
 
-The daily scheduled run follows [deep_run.md](deep_run.md): property mining,
-≥ 40 candidates, verification bounds 10× past A, ≥ 8 novelty queries per
-survivor, a mandatory skeptic pass, and a second round if there is no hit.
+The daily scheduled run follows [deep_run.md](deep_run.md): a 140-minute budget and a
+5-agent team (miner, generator, verifier, prior-art-hunter, skeptic) with
+blind independent scoring, a mandatory skeptic pass, and a second round if there
+is no consensus hit.
 
 ## 7. Learning loop
 
